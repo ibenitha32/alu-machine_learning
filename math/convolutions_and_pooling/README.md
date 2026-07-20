@@ -1,1 +1,1 @@
-# Convolutions and pooling
+convolutions readme.

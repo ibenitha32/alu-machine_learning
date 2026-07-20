@@ -1,1 +1,1 @@
-# Bayesian Probablity
+Bayesian Prob.

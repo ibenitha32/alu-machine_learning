@@ -1,35 +1,31 @@
 #!/usr/bin/env python3
 """
-Matrix multiplication
+Write a function def mat_mul(mat1, mat2): that performs matrix multiplication
 """
 
 
 def mat_mul(mat1, mat2):
-    """ multiply the two matrices
-
-    Args:
-        mat1 (_type_): _description_
-        mat2 (_type_): _description_
-
-    Returns:
-        _type_: _description_
     """
+    You can assume that mat1 and mat2 are 2D matrices containing ints/floats
+    You can assume all elements in the same dimension are of the same
+    You must return a new matrix
+    If the two matrices cannot be multiplied, return None
+    """
+    # Check if the matrices can be multiplied
     if len(mat1[0]) != len(mat2):
         return None
-    matrix = []
-    for k in range(len(mat1)):
-        matrix.append([])
-        for i in range(len(mat2[0])):
-            dot = 0
-            for j in range(len(mat1[0])):
-                dot += mat1[k][j] * mat2[j][i]
-            matrix[k].append(dot)
-    return matrix
 
+    # Determine the dimensions of the resulting matrix
+    num_rows = len(mat1)
+    num_columns = len(mat2[0])
 
-# mat1 = [[1, 2],
-#         [3, 4],
-#         [5, 6]]
-# mat2 = [[1, 2, 3, 4],
-#         [5, 6, 7, 8]]
-# print(mat_mul(mat1, mat2))
+    # Create a new matrix to store the result
+    result_matrix = [[0] * num_columns for _ in range(num_rows)]
+
+    # Perform matrix multiplication
+    for i in range(num_rows):
+        for j in range(num_columns):
+            for k in range(len(mat2)):
+                result_matrix[i][j] += mat1[i][k] * mat2[k][j]
+
+    return result_matrix

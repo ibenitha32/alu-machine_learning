@@ -1,31 +1,24 @@
 #!/usr/bin/env python3
 """
-Concat 2d matrices along a specific axis
+Write a function def cat_matrices2D(mat1, mat2, axis=0):
+that concatenates two matrices along a specific axis:
 """
 
 
-def cat_matrices2D(matrix1, matrix2, axis=0):
-    """ Concat 2d matrices along a specific axis """
+def cat_matrices2D(mat1, mat2, axis=0):
+    """
+    You can assume that mat1 and mat2 are 2D matrices containing ints/floats
+    You can assume all elements in the same dimension are of the same
+    You must return a new matrix
+    If the two matrices cannot be concatenated, return None
+    """
     if axis == 0:
-        if len(matrix1[0]) != len(matrix2[0]):
+        if len(mat1[0]) != len(mat2[0]):
             return None
-        return matrix1 + matrix2
-    if axis == 1:
-        if len(matrix1) != len(matrix2):
+        return mat1 + mat2
+    elif axis == 1:
+        if len(mat1) != len(mat2):
             return None
-        return [matrix1[i] + matrix2[i] for i in range(len(matrix1))]
-    return None
-
-
-# mat1 = [[1, 2], [3, 4]]
-# mat2 = [[5, 6],]
-# mat3 = [[7], [8]]
-# mat4 = cat_matrices2D(mat1, mat2)
-# mat5 = cat_matrices2D(mat1, mat3, axis=1)
-# print(mat4)
-# print(mat5)
-# mat1[0] = [9, 10]
-# mat1[1].append(5)
-# print(mat1)
-# print(mat4)
-# print(mat5)
+        return [mat1[i] + mat2[i] for i in range(len(mat1))]
+    else:
+        return None

@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
 """
-Calculate transpose of a matrix
+this module returns the transpose of a matrix using numpy
 """
 
 
 def np_transpose(matrix):
-    """Returns a transpose of a matrix
-
-    Args:
-        matrix (_type_): _description_
-
-    Returns:
-        _type_: _description_
+    """
+    returns the transpose of a numpy.ndarray
     """
     return matrix.transpose()

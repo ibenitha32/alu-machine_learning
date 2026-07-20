@@ -1,1 +1,1 @@
-# Multivariant Probability
+Multivariate Probability.

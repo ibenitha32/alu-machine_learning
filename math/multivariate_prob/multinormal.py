@@ -1,40 +1,54 @@
 #!/usr/bin/env python3
-"""mulitvaritive probability"""
+"""
+This module contains a class that represents a Multivariate
+Normal distribution.
+"""
+
+
 import numpy as np
 
 
-class MultiNormal():
-    """represents a Multivariate Normal distribution"""
-
+class MultiNormal:
+    """
+    This class represents a Multivariate Normal distribution.
+    where:
+    - data: a numpy.ndarray of shape (d, n) containing the data set.
+    - n: the number of data points.
+    - d: the number of dimensions in each data point.
+    - mean: a numpy.ndarray of shape (d, 1) containing the mean of data.
+    - cov: a numpy.ndarray of shape (d, d) containing the covariance
+    matrix data.
+    """
     def __init__(self, data):
-        """class constructor"""
-        if not isinstance(data, np.ndarray) or len(data.shape) != 2:
-            raise TypeError('data must be a 2D numpy.ndarray')
-        d, n = data.shape
-        if n < 2:
+        """
+        This method initializes the MultiNormal class.
+        """
+        if not isinstance(data, np.ndarray) or data.ndim != 2:
+            raise TypeError("data must be a 2D numpy.ndarray")
+        if data.shape[1] < 2:
             raise ValueError("data must contain multiple data points")
 
-        self.mean, self.cov = self.mean_cov(data)
-
-    @staticmethod
-    def mean_cov(X):
-        """that calculates the mean and covariance of a data set"""
-        d, n = X.shape
-        m = np.mean(X, axis=1, keepdims=True)
-        C = np.matmul((X - m), (X - m).T) / (n - 1)
-        return m, C
+        self.mean = np.mean(data, axis=1, keepdims=True)
+        diff = data - self.mean
+        self.cov = np.dot(diff, diff.T) / (data.shape[1] - 1)
 
     def pdf(self, x):
-        """ calculate a PDF"""
+        """
+        This method calculates the PDF at a data point.
+        """
         if type(x) is not np.ndarray:
             raise TypeError("x must be a numpy.ndarray")
         d = self.cov.shape[0]
-        if len(x.shape) != 2 or x.shape != (d, 1):
-            raise ValueError('x must have the shape ({}, 1)'.format(d))
-        m = self.mean
-        cov = self.cov
-        bottom = np.sqrt(((2 * np.pi) ** d) * (np.linalg.det(cov)))
-        inv = np.linalg.inv(cov)
-        exp = (-.5 * np.matmul(np.matmul((x - m).T, inv), (x - m)))
-        result = (1 / bottom) * np.exp(exp[0][0])
-        return result
+        if len(x.shape) != 2:
+            raise ValueError("x must have the shape ({}, 1)".format(d))
+        check_d, one = x.shape
+        if check_d != d or one != 1:
+            raise ValueError("x must have the shape ({}, 1)".format(d))
+
+        det = np.linalg.det(self.cov)
+        inv = np.linalg.inv(self.cov)
+        pdf = 1.0 / np.sqrt(((2 * np.pi) ** d) * det)
+        mult = np.matmul(np.matmul((x - self.mean).T, inv), (x - self.mean))
+        pdf *= np.exp(-0.5 * mult)
+        pdf = pdf[0][0]
+        return pdf
